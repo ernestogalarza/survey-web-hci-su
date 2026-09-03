@@ -1,0 +1,268 @@
+import type { VocabWord } from "@/types/survey";
+
+/**
+ * Emojis are placeholders for the pilot build. For the real MR study these
+ * should be swapped for photos of the physical objects used in the
+ * Spatial Labeling (A) / Object Augmented (B) conditions.
+ */
+export const VOCABULARY: VocabWord[] = [
+  // Condition A: Spatial Labeling
+  {
+    id: "a1",
+    spanish: "teclado",
+    english: "keyboard",
+    emoji: "⌨️",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Device with keys for typing",
+    distractors: ["computadora", "bolígrafo", "cuaderno"],
+  },
+  {
+    id: "a2",
+    spanish: "taza",
+    english: "cup",
+    emoji: "☕",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Container used for drinking hot beverages",
+    distractors: ["plato", "cuchara", "leche"],
+  },
+  {
+    id: "a3",
+    spanish: "lentes",
+    english: "glasses",
+    emoji: "👓",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Eyewear worn to help you see",
+    distractors: ["sombrero", "teléfono", "llavero"],
+  },
+  {
+    id: "a4",
+    spanish: "tenedor",
+    english: "fork",
+    emoji: "🍴",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Utensil with prongs used for eating",
+    distractors: ["cuchara", "plato", "tijeras"],
+  },
+  {
+    id: "a5",
+    spanish: "cuchara",
+    english: "spoon",
+    emoji: "🥄",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Utensil used for eating soup",
+    distractors: ["tenedor", "taza", "plato"],
+  },
+  {
+    id: "a6",
+    spanish: "cuaderno",
+    english: "notebook",
+    emoji: "📓",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Book of blank pages used for writing notes",
+    distractors: ["bolígrafo", "teclado", "computadora"],
+  },
+  {
+    id: "a7",
+    spanish: "computadora",
+    english: "computer",
+    emoji: "💻",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Electronic device used for work and browsing the internet",
+    distractors: ["teclado", "teléfono", "cuaderno"],
+  },
+  {
+    id: "a8",
+    spanish: "bolígrafo",
+    english: "pen",
+    emoji: "🖊️",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Tool used for writing in ink",
+    distractors: ["cuaderno", "teclado", "tijeras"],
+  },
+  {
+    id: "a9",
+    spanish: "sombrero",
+    english: "hat",
+    emoji: "🎩",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Item worn on your head",
+    distractors: ["gafas", "llavero", "juguete"],
+  },
+  {
+    id: "a10",
+    spanish: "teléfono",
+    english: "cellphone",
+    emoji: "📱",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Device used for calling and messaging",
+    distractors: ["computadora", "gafas", "llavero"],
+  },
+  {
+    id: "a11",
+    spanish: "llavero",
+    english: "keychain",
+    emoji: "🔑",
+    condition: "A",
+    questionType: "progressive_hints",
+    definitionHint: "Small ring or holder for keys",
+    distractors: ["gafas", "teléfono", "tijeras"],
+  },
+  {
+    id: "a12",
+    spanish: "tijeras",
+    english: "scissors",
+    emoji: "✂️",
+    condition: "A",
+    questionType: "direct_mc",
+    definitionHint: "Tool with two blades used for cutting",
+    distractors: ["bolígrafo", "llavero", "tenedor"],
+  },
+  // Condition B: Object Augmented
+  {
+    id: "b1",
+    spanish: "pelota",
+    english: "ball",
+    emoji: "⚽",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Round object used for playing games",
+    distractors: ["juguete", "oso de peluche", "manzana"],
+  },
+  {
+    id: "b2",
+    spanish: "leche",
+    english: "milk",
+    emoji: "🥛",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "White drink that comes from cows",
+    distractors: ["queso", "taza", "plato"],
+  },
+  {
+    id: "b3",
+    spanish: "silla",
+    english: "chair",
+    emoji: "🪑",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Furniture item used for sitting",
+    distractors: ["cama", "lámpara", "plato"],
+  },
+  {
+    id: "b4",
+    spanish: "cama",
+    english: "bed",
+    emoji: "🛏️",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "Furniture item used for sleeping",
+    distractors: ["silla", "lámpara", "oso de peluche"],
+  },
+  {
+    id: "b5",
+    spanish: "zanahoria",
+    english: "carrot",
+    emoji: "🥕",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Orange vegetable that grows underground",
+    distractors: ["manzana", "queso", "plato"],
+  },
+  {
+    id: "b6",
+    spanish: "plato",
+    english: "plate",
+    emoji: "🍽️",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "Flat dish used for serving food",
+    distractors: ["taza", "cuchara", "queso"],
+  },
+  {
+    id: "b7",
+    spanish: "oso de peluche",
+    english: "teddy bear",
+    emoji: "🧸",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Soft stuffed toy shaped like a bear",
+    distractors: ["juguete", "pelota", "cama"],
+  },
+  {
+    id: "b8",
+    spanish: "queso",
+    english: "cheese",
+    emoji: "🧀",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "Dairy food made from milk",
+    distractors: ["leche", "manzana", "zanahoria"],
+  },
+  {
+    id: "b9",
+    spanish: "lámpara",
+    english: "lamp",
+    emoji: "💡",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Device that provides light",
+    distractors: ["silla", "cama", "microondas"],
+  },
+  {
+    id: "b10",
+    spanish: "manzana",
+    english: "apple",
+    emoji: "🍎",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "Round fruit, often red or green",
+    distractors: ["zanahoria", "queso", "leche"],
+  },
+  {
+    id: "b11",
+    spanish: "microondas",
+    english: "microwave",
+    emoji: "🔲",
+    condition: "B",
+    questionType: "progressive_hints",
+    definitionHint: "Appliance used to heat food quickly",
+    distractors: ["lámpara", "computadora", "plato"],
+  },
+  {
+    id: "b12",
+    spanish: "juguete",
+    english: "toy",
+    emoji: "🧩",
+    condition: "B",
+    questionType: "direct_mc",
+    definitionHint: "Object made for children to play with",
+    distractors: ["pelota", "oso de peluche", "sombrero"],
+  },
+];
+
+export function wordsForCondition(condition: "A" | "B"): VocabWord[] {
+  return VOCABULARY.filter((w) => w.condition === condition);
+}
+
+export function firstLetterHint(spanish: string): string {
+  return `Starts with "${spanish.charAt(0).toUpperCase()}"`;
+}
+
+/**
+ * Highest level number a word's flow can reach: 3 for progressive hints
+ * (no hint / hint 1 / hint 2 — text entry only, no multiple choice), 2 for
+ * direct MC (a single recognition step).
+ */
+export function maxStageFor(word: VocabWord): number {
+  return word.questionType === "progressive_hints" ? 3 : 2;
+}
