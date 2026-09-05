@@ -26,6 +26,8 @@ export function SurveyApp() {
     isLastStep,
     startSession,
     resetSession,
+    restartCurrentParticipant,
+    resumeSession,
     updatePostTestResult,
     updateNasaTlx,
     updateSus,
@@ -38,7 +40,7 @@ export function SurveyApp() {
   const [showComplete, setShowComplete] = useState(false);
 
   if (!session.started) {
-    return <SurveySetup onStart={startSession} />;
+    return <SurveySetup onStart={startSession} onResume={resumeSession} />;
   }
 
   if (showComplete) {
@@ -57,7 +59,16 @@ export function SurveyApp() {
 
   function handleRestart() {
     const confirmed = window.confirm(
-      "Esto borrará todas las respuestas del participante actual y volverá a la pantalla de inicio. ¿Deseas continuar?",
+      `This will erase all answers for participant "${session.participantId}" and start their session over from question 1 (same participant ID). Continue?`,
+    );
+    if (!confirmed) return;
+    restartCurrentParticipant();
+    setShowComplete(false);
+  }
+
+  function handleChangeParticipant() {
+    const confirmed = window.confirm(
+      "This will discard the current participant's unsaved answers and return to the setup screen so a new participant ID can be entered. Continue?",
     );
     if (!confirmed) return;
     resetSession();
@@ -148,13 +159,22 @@ export function SurveyApp() {
         <span>
           Participant: <strong className="text-white">{session.participantId}</strong>
         </span>
-        <button
-          type="button"
-          onClick={handleRestart}
-          className="shrink-0 rounded-md border border-white/25 px-2.5 py-1 font-semibold text-white/90 transition-colors hover:border-white/60 hover:text-white"
-        >
-          🔁 Change participant / Restart
-        </button>
+        <div className="flex shrink-0 gap-2">
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="rounded-md border border-white/25 px-2.5 py-1 font-semibold text-white/90 transition-colors hover:border-white/60 hover:text-white"
+          >
+            🔁 Restart
+          </button>
+          <button
+            type="button"
+            onClick={handleChangeParticipant}
+            className="rounded-md border border-white/25 px-2.5 py-1 font-semibold text-white/90 transition-colors hover:border-white/60 hover:text-white"
+          >
+            👤 Change participant
+          </button>
+        </div>
       </div>
       <TabNav sections={sections} activeIndex={location.sectionIndex} onSelect={goToSection} />
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { calculateNasaTlxScore } from "@/data/nasaTlxDimensions";
 import { calculateSusScore } from "@/data/susItems";
 import { downloadCsv } from "@/lib/csvExport";
@@ -17,25 +16,12 @@ export function SurveyComplete({ session, onReview }: SurveyCompleteProps) {
   const nasaAScore = calculateNasaTlxScore(session.nasaTlxA);
   const nasaBScore = calculateNasaTlxScore(session.nasaTlxB);
 
-  const sentRef = useRef(false);
-  useEffect(() => {
-    if (sentRef.current) return;
-    sentRef.current = true;
-    fetch("/api/sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(session),
-    }).catch(() => {
-      // Best-effort only: the CSV export below is the source of truth.
-    });
-  }, [session]);
-
   return (
     <div className="flex flex-1 items-center justify-center bg-linear-to-br from-[#667eea] to-[#764ba2] p-5">
       <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl sm:p-8">
         <h1 className="text-xl font-bold text-[#2c3e50]">Session Complete ✅</h1>
         <p className="mt-2 text-sm text-[#2c3e50]/70">
-          Thank you, {session.participantId}. Your responses have been saved locally.
+          Thank you, {session.participantId}. Your responses have been saved.
         </p>
 
         <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">

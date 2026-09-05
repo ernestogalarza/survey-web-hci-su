@@ -53,6 +53,25 @@ export function useSurveySession() {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [session, currentStep]);
 
+  // Continuously mirrors the in-progress session to the server (debounced),
+  // so answers survive switching to another participant or closing the
+  // browser entirely — not just a reload of the same tab (localStorage only
+  // covers that). Re-entering the same participant ID on the setup screen
+  // fetches this saved record to resume exactly where they left off.
+  useEffect(() => {
+    if (!hydrated.current || !session.started) return;
+    const timeout = setTimeout(() => {
+      fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session, currentStep }),
+      }).catch(() => {
+        // Best-effort only: localStorage on this device remains the fallback.
+      });
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [session, currentStep]);
+
   const startSession = useCallback((participantId: string, conditionOrder: ConditionOrder) => {
     setSession((prev) => ({
       ...prev,
@@ -67,6 +86,28 @@ export function useSurveySession() {
   const resetSession = useCallback(() => {
     setSession(createEmptySession());
     setCurrentStep(0);
+  }, []);
+
+  // Restarts the same participant from question 1 — keeps their ID and
+  // condition order, but wipes all recorded answers. Distinct from
+  // resetSession, which also clears the participant ID (used to switch
+  // to a different participant).
+  const restartCurrentParticipant = useCallback(() => {
+    setSession((prev) => ({
+      ...createEmptySession(),
+      participantId: prev.participantId,
+      conditionOrder: prev.conditionOrder,
+      timestamp: new Date().toISOString(),
+      started: true,
+    }));
+    setCurrentStep(0);
+  }, []);
+
+  // Hydrates local state from a record fetched from the server (see
+  // SurveySetup), so a participant can pick up exactly where they left off.
+  const resumeSession = useCallback((resumedSession: SessionData, resumedStep: number) => {
+    setSession(resumedSession);
+    setCurrentStep(resumedStep);
   }, []);
 
   const updatePostTestResult = useCallback((condition: Condition, result: QuestionResult) => {
@@ -132,6 +173,8 @@ export function useSurveySession() {
     isLastStep,
     startSession,
     resetSession,
+    restartCurrentParticipant,
+    resumeSession,
     updatePostTestResult,
     updateNasaTlx,
     updateSus,

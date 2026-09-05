@@ -1,3 +1,5 @@
+import { QUALITATIVE_QUESTIONS } from "@/data/qualitativeQuestions";
+
 export type SectionKey =
   | "postTestA"
   | "postTestB"
@@ -22,7 +24,7 @@ export const SECTIONS: SectionMeta[] = [
   { key: "nasaTlxB", tabLabel: "NASA-TLX B", count: 6 },
   { key: "susA", tabLabel: "SUS A", count: 10 },
   { key: "susB", tabLabel: "SUS B", count: 10 },
-  { key: "qualitative", tabLabel: "Qualitative", count: 4 },
+  { key: "qualitative", tabLabel: "Qualitative", count: QUALITATIVE_QUESTIONS.length },
 ];
 
 export const TOTAL_STEPS = SECTIONS.reduce((sum, s) => sum + s.count, 0);
