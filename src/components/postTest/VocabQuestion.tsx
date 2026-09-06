@@ -11,6 +11,7 @@ interface VocabQuestionProps {
   word: VocabWord;
   result: QuestionResult | undefined;
   onUpdate: (result: QuestionResult) => void;
+  audioEnabled: boolean;
 }
 
 const MAX_HINTS = 2;
@@ -35,7 +36,7 @@ function buildAttempt(level: number, answer: string, correct: boolean, startedAt
   };
 }
 
-export function VocabQuestion({ word, result, onUpdate }: VocabQuestionProps) {
+export function VocabQuestion({ word, result, onUpdate, audioEnabled }: VocabQuestionProps) {
   const maxStage = maxStageFor(word);
   const isDirectMc = word.questionType === "direct_mc";
 
@@ -130,7 +131,7 @@ export function VocabQuestion({ word, result, onUpdate }: VocabQuestionProps) {
 
       <div className="flex flex-col items-center gap-3 rounded-xl bg-[#f9f9f9] py-8">
         <VocabImage word={word} size="lg" />
-        <AudioButton text={word.spanish} />
+        <AudioButton text={word.spanish} enabled={audioEnabled} />
       </div>
 
       {completed ? (

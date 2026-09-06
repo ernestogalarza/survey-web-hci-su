@@ -5,9 +5,10 @@ import { speakSpanish } from "@/lib/audio";
 
 interface AudioButtonProps {
   text: string;
+  enabled: boolean;
 }
 
-export function AudioButton({ text }: AudioButtonProps) {
+export function AudioButton({ text, enabled }: AudioButtonProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   function handleClick() {
@@ -15,6 +16,8 @@ export function AudioButton({ text }: AudioButtonProps) {
     setIsPlaying(true);
     speakSpanish(text, () => setIsPlaying(false));
   }
+
+  if (!enabled) return null;
 
   return (
     <button

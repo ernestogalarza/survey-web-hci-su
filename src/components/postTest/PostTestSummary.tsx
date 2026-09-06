@@ -16,16 +16,6 @@ export function PostTestSummary({ condition, results }: PostTestSummaryProps) {
   const words = wordsForCondition(condition);
   const answered = words.map((word) => ({ word, result: results[word.id] })).filter((w) => w.result);
 
-  const level1Attempts = answered.filter(({ result }) =>
-    result!.attempts.some((a) => a.level === 1),
-  );
-  const level1Correct = level1Attempts.filter(
-    ({ result }) => result!.attempts.find((a) => a.level === 1)!.correct,
-  ).length;
-
-  const mcAttempts = answered.filter(({ word }) => word.questionType === "direct_mc");
-  const mcCorrect = mcAttempts.filter(({ result }) => result!.isCorrect).length;
-
   const overallCorrect = answered.filter(({ result }) => result!.isCorrect).length;
 
   return (
@@ -39,25 +29,7 @@ export function PostTestSummary({ condition, results }: PostTestSummaryProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div className="rounded-lg bg-[#f9f9f9] p-4 text-center">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#2c3e50]/60">
-            Free Recall Accuracy
-          </p>
-          <p className="mt-1 text-2xl font-bold text-[#2c3e50]">
-            {formatPercent(level1Correct, level1Attempts.length)}
-          </p>
-          <p className="text-xs text-[#2c3e50]/50">Level 1, unaided</p>
-        </div>
-        <div className="rounded-lg bg-[#f9f9f9] p-4 text-center">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#2c3e50]/60">
-            Multiple Choice Accuracy
-          </p>
-          <p className="mt-1 text-2xl font-bold text-[#2c3e50]">
-            {formatPercent(mcCorrect, mcAttempts.length)}
-          </p>
-          <p className="text-xs text-[#2c3e50]/50">Recognition level</p>
-        </div>
+      <div className="grid grid-cols-1 gap-3">
         <div className="rounded-lg bg-[#f9f9f9] p-4 text-center">
           <p className="text-xs font-semibold uppercase tracking-wide text-[#2c3e50]/60">
             Overall Accuracy

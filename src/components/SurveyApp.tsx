@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSurveySession } from "@/hooks/useSurveySession";
 import { wordsForCondition } from "@/data/vocabulary";
 import { NASA_TLX_DIMENSIONS } from "@/data/nasaTlxDimensions";
@@ -16,6 +16,8 @@ import { PostTestSummary } from "./postTest/PostTestSummary";
 import { NasaTlxSlider } from "./nasaTlx/NasaTlxSlider";
 import { SusLikert } from "./sus/SusLikert";
 import { QualitativeQuestion } from "./qualitative/QualitativeQuestion";
+
+const AUDIO_ENABLED_STORAGE_KEY = "mr-thesis-audio-enabled";
 
 export function SurveyApp() {
   const {
@@ -38,6 +40,33 @@ export function SurveyApp() {
   } = useSurveySession();
 
   const [showComplete, setShowComplete] = useState(false);
+  // Proctor-only setting (not participant response data): whether the
+  // "Listen to Word" audio control is available during the post-test.
+  // Lives in localStorage rather than SessionData so it persists across
+  // participants/resets instead of being tied to one participant's record.
+  const [audioEnabled, setAudioEnabled] = useState(true);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(AUDIO_ENABLED_STORAGE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (stored !== null) setAudioEnabled(stored === "true");
+    } catch {
+      // localStorage unavailable — keep the default.
+    }
+  }, []);
+
+  function handleToggleAudio() {
+    setAudioEnabled((prev) => {
+      const next = !prev;
+      try {
+        window.localStorage.setItem(AUDIO_ENABLED_STORAGE_KEY, String(next));
+      } catch {
+        // Best-effort only.
+      }
+      return next;
+    });
+  }
 
   if (!session.started) {
     return <SurveySetup onStart={startSession} onResume={resumeSession} />;
@@ -92,6 +121,7 @@ export function SurveyApp() {
             word={word}
             result={results[word.id]}
             onUpdate={(r) => updatePostTestResult(condition, r)}
+            audioEnabled={audioEnabled}
           />
         );
       }
@@ -160,6 +190,15 @@ export function SurveyApp() {
           Participant: <strong className="text-white">{session.participantId}</strong>
         </span>
         <div className="flex shrink-0 gap-2">
+          <button
+            type="button"
+            onClick={handleToggleAudio}
+            aria-pressed={audioEnabled}
+            title={audioEnabled ? "Disable audio playback for the participant" : "Enable audio playback for the participant"}
+            className="rounded-md border border-white/25 px-2.5 py-1 font-semibold text-white/90 transition-colors hover:border-white/60 hover:text-white"
+          >
+            {audioEnabled ? "🔊 Audio: On" : "🔇 Audio: Off"}
+          </button>
           <button
             type="button"
             onClick={handleRestart}
